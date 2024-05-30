@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MovingPlatform.generated.h"
+#include "LerpMovingPlatform.generated.h"
 
 UCLASS()
-class OBSTACLEASSAULT_API AMovingPlatform : public AActor
+class OBSTACLEASSAULT_API ALerpMovingPlatform : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	AMovingPlatform();
+	ALerpMovingPlatform();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,12 +24,15 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	FVector PlatformVelocity = FVector(0, 0, 0);
-
+	FVector EndLocation;
 	UPROPERTY(EditAnywhere)
-	float MoveDistance  = 0.0f;
+	float Duration;
+	UPROPERTY(EditAnywhere)
+	float Delay;
 
 private:
 	FVector StartLocation;
-	
+	float ElapsedTime;
+
+	FVector LinearInterpolate(FVector A, FVector B, float InElapsedTime, float InDuration);
 };
